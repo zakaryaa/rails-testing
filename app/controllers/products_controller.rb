@@ -5,6 +5,27 @@ class ProductsController < ApplicationController
     @products = Product.all
   end
 
-  def show
+  def new
+    @product = Product.new
   end
+
+  def show
+    @product = Product.find(params[:id])
+  end
+
+  def create
+    @product = Product.new(product_params)
+    if @product.save
+      redirect_to product_path(@product)
+    else
+      redirect_to root_path
+    end
+  end
+
+  private
+
+  def product_params
+    params.require(:product).permit(:name, :tagline)
+  end
+
 end
